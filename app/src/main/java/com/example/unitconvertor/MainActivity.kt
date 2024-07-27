@@ -1,6 +1,7 @@
 package com.example.unitconvertor
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.health.connect.datatypes.units.Length
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.animateDecay
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +17,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -58,6 +61,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -112,562 +116,974 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainScreen(navController: NavController) {
         val context = LocalContext.current
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(10.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        val Configuration = LocalConfiguration.current
+        val isPortrait =
+            Configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 
-            Text(text = "ConvertorApp", fontSize = 30.sp, modifier = Modifier.padding(12.dp))
-            Image(
-                painter = painterResource(id = R.drawable.length1), contentDescription = "Length",
-                modifier = Modifier.size(180.dp)
-            )
-            Button(onClick = {
-                navController.navigate("length")
+        if (isPortrait) {
 
-            }, modifier = Modifier.clip(RoundedCornerShape(14.dp)),
-                shape = RoundedCornerShape(16.dp)
-                )
-            {
-                Text(text = "Length")
-            }
-
-            Image(
-                painter = painterResource(id = R.drawable.weight2), contentDescription = "Weight",
+            Column(
                 modifier = Modifier
-                    .size(180.dp)
-                    .padding(12.dp)
-            )
-            Button(onClick = {
-                navController.navigate("weight")
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(10.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-            }, modifier = Modifier,
-                shape = RoundedCornerShape(16.dp)
+                Text(text = "ConvertorApp", fontSize = 30.sp, modifier = Modifier.padding(12.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.length1),
+                    contentDescription = "Length",
+                    modifier = Modifier.size(180.dp)
+                )
+                Button(
+                    onClick = {
+                        navController.navigate("length")
+
+                    }, modifier = Modifier.clip(RoundedCornerShape(14.dp)),
+                    shape = RoundedCornerShape(16.dp)
+                )
+                {
+                    Text(text = "Length")
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.weight2),
+                    contentDescription = "Weight",
+                    modifier = Modifier
+                        .size(180.dp)
+                        .padding(12.dp)
+                )
+                Button(
+                    onClick = {
+                        navController.navigate("weight")
+
+                    }, modifier = Modifier,
+                    shape = RoundedCornerShape(16.dp)
                 ) {
-                Text(text = "Weight")
+                    Text(text = "Weight")
+
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.spped), contentDescription = "Speed",
+                    modifier = Modifier.size(200.dp)
+                )
+                Button(
+                    onClick = {
+                        navController.navigate("speed")
+                    }, shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(text = "Speed")
+
+                }
 
             }
 
-            Image(
-                painter = painterResource(id = R.drawable.spped), contentDescription = "Speed",
-                modifier = Modifier.size(200.dp)
-            )
-            Button(onClick = {
-                navController.navigate("speed")
-            }, shape = RoundedCornerShape(16.dp)
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                Text(text = "Speed")
+                    Text(
+                        text = "ConvertorApp",
+                        fontSize = 30.sp,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.length1),
+                        contentDescription = "Length",
+                        modifier = Modifier.size(180.dp)
+                    )
+                    Button(
+                        onClick = {
+                            navController.navigate("length")
+                        },
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(14.dp)),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Text(text = "Length")
+                    }
+                }
 
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.weight2),
+                        contentDescription = "Weight",
+                        modifier = Modifier
+                            .size(180.dp)
+                            .padding(12.dp)
+                    )
+                    Button(
+                        onClick = {
+                            navController.navigate("weight")
+                        },
+                        modifier = Modifier,
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Text(text = "Weight")
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.spped),
+                        contentDescription = "Speed",
+                        modifier = Modifier.size(200.dp)
+                    )
+                    Button(
+                        onClick = {
+                            navController.navigate("speed")
+                        },
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Text(text = "Speed")
+                    }
+                }
             }
 
         }
 
     }
 
+
     @Preview
     @Composable
     fun LengthScreen() {
 
-        var selectedOption1 = rememberSaveable{
+        var selectedOption1 = rememberSaveable {
             mutableStateOf("")
         }
         var option1 = listOf("Kilometer", "Meter", "Centimeter", "Millimeter")
-        var label1="Select Length"
-        var text1 =  rememberSaveable{
+        var label1 = "Select Length"
+        var text1 = rememberSaveable {
             mutableStateOf("")
 
         }
 
-        var selectedOption2 = rememberSaveable{
+        var selectedOption2 = rememberSaveable {
             mutableStateOf("")
         }
 
         var option2 = listOf("Kilometer", "Meter", "Centimeter", "Millimeter")
-        var label2="Select Length"
+        var label2 = "Select Length"
+        var Configuration = LocalConfiguration.current
+        var isPortrait =
+            Configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(50.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Length Converter", fontSize = 30.sp)
-
-            Spacer(modifier = Modifier.size(50.dp))
-
-            dropdownmenu(options = option1 , selectedOption = selectedOption1, label =label1 )
-
-            Spacer(modifier = Modifier.size(50.dp))
-            TextField(
-                value = text1.value, onValueChange = {newText->
-                    text1.value=newText
-                },
+        if (isPortrait) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                label = { Text(text = "Enter value")}
-                
-            )
-            Spacer(modifier = Modifier.size(50.dp))
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(50.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "Length Converter", fontSize = 30.sp)
 
-            dropdownmenu(options = option2, selectedOption = selectedOption2, label = label2)
+                Spacer(modifier = Modifier.size(50.dp))
 
-            Spacer(modifier = Modifier.size(50.dp))
+                dropdownmenu(options = option1, selectedOption = selectedOption1, label = label1)
+
+                Spacer(modifier = Modifier.size(50.dp))
+                TextField(
+                    value = text1.value, onValueChange = { newText ->
+                        text1.value = newText
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(text = "Enter value") }
+
+                )
+                Spacer(modifier = Modifier.size(50.dp))
+
+                dropdownmenu(options = option2, selectedOption = selectedOption2, label = label2)
+
+                Spacer(modifier = Modifier.size(50.dp))
 
 
+                var result = rememberSaveable {
+                    mutableStateOf("Result")
 
-            var result= rememberSaveable{
-                mutableStateOf("Result")
+                }
+                if (selectedOption1.value != " " && selectedOption2.value != " " && text1.value != "") {
 
+                    when (selectedOption1.value) {
+                        "Kilometer" -> {
+                            var text1 = text1.value.toFloat() * 1000 //km to meter
+                            when (selectedOption2.value) {
+                                "Kilometer" -> {
+                                    var view1 = text1 / 1000
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier
+                                            .padding(12.dp),
+                                        fontSize = 30.sp
+                                    )
+
+                                }
+
+                                "Meter" -> {
+                                    var view2 = text1 * 1
+                                    result.value = view2.toString()
+                                    Text(
+                                        text = result.value,
+                                        fontSize = 30.sp
+                                    )
+                                }
+
+                                "Centimeter" -> {
+                                    var view3 = text1 * 100
+                                    result.value = view3.toString()
+                                    Text(
+                                        text = result.value, fontSize = 30.sp
+                                    )
+
+                                }
+
+                                "Millimeter" -> {
+                                    var view4 = text1 * 1000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+                            }
+
+                        }
+
+                        "Meter" -> {
+                            var text2 = text1.value.toFloat() * 1 //meter to meter
+
+                            when (selectedOption2.value) {
+                                "Kilometer" -> {
+                                    var view1 = text2 / 1000
+                                    result.value = view1.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Meter" -> {
+                                    var view2 = text2 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Centimeter" -> {
+                                    var view3 = text2 * 100
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Millimeter" -> {
+                                    var view4 = text2 * 1000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+                            }
+
+
+                        }
+
+                        "Centimeter" -> {
+                            var text3 = text1.value.toFloat() * 100       //cm to meter
+
+                            when (selectedOption2.value) {
+                                "Kilometer" -> {
+                                    var view1 = text3 / 1000
+                                    result.value = view1.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Meter" -> {
+                                    var view2 = text3 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Centimeter" -> {
+                                    var view3 = text3 * 100
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Millimeter" -> {
+                                    var view4 = text3 * 1000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+                            }
+
+                        }
+
+                        "Millimeter" -> {
+                            var text4 = text1.value.toFloat() / 1000     //mm to meter
+                            when (selectedOption2.value) {
+                                "Kilometer" -> {
+                                    var view1 = text4 / 1000
+                                    result.value = view1.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Meter" -> {
+                                    var view2 = text4 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Centimeter" -> {
+                                    var view3 = text4 * 100
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Millimeter" -> {
+                                    var view4 = text4 * 1000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+                            }
+
+                        }
+                    }
+
+
+                }
             }
-            if(selectedOption1.value!=" " && selectedOption2.value!=" " && text1.value!=""){
-
-                when(selectedOption1.value){
-                    "Kilometer"->{
-                        var text1=text1.value.toFloat() *1000 //km to meter
-                        when(selectedOption2.value){
-                            "Kilometer"->{
-                                var view1=text1 /1000
-                                result.value=view1.toString()
-                                Text(text = result.value, modifier = Modifier
-                                    .padding(12.dp),
-                                    fontSize = 30.sp
-                                )
-
-                            }
-                            "Meter"->{ var view2=text1 *1
-                                result.value=view2.toString()
-                                Text(text = result.value,
-                                    fontSize = 30.sp
-                                )
-                            }
-                            "Centimeter"->{
-                                var view3= text1 * 100
-                                result.value=view3.toString()
-                                Text(text = result.value
-                                ,fontSize = 30.sp)
-
-                            }
-                            "Millimeter"->{
-                                var view4=text1 *1000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                        }
-
-                    }
-                    "Meter"->{
-                        var text2=text1.value.toFloat() * 1 //meter to meter
-
-                        when(selectedOption2.value) {
-                            "Kilometer" -> {
-                                var view1 = text2 / 1000
-                                result.value=view1.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Meter" -> {
-                                var view2 = text2 * 1
-                                result.value=view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Centimeter" -> {
-                                var view3 = text2 * 100
-                                result.value=view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Millimeter" -> {
-                                var view4 = text2 * 1000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                        }
-
-
-
-                    }
-                    "Centimeter"->{
-                        var text3=text1.value.toFloat() * 100       //cm to meter
-
-                        when(selectedOption2.value) {
-                            "Kilometer" -> {
-                                var view1 = text3 / 1000
-                                result.value=view1.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Meter" -> {
-                                var view2 = text3 * 1
-                                result.value=view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Centimeter" -> {
-                                var view3 = text3 * 100
-                                result.value=view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Millimeter" -> {
-                                var view4 = text3 * 1000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                        }
-
-                    }
-                    "Millimeter"->{
-                        var text4=text1.value.toFloat() / 1000     //mm to meter
-                        when(selectedOption2.value) {
-                            "Kilometer" -> {
-                                var view1 = text4 / 1000
-                                result.value=view1.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Meter" -> {
-                                var view2 = text4 * 1
-                                result.value=view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Centimeter" -> {
-                                var view3 = text4 * 100
-                                result.value=view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Millimeter" -> {
-                                var view4 = text4 * 1000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                        }
-
-                    }
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(15.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Length Converter", fontSize = 30.sp)
+                    Spacer(modifier = Modifier.size(20.dp))
+                    dropdownmenu(
+                        options = option1,
+                        selectedOption = selectedOption1,
+                        label = label1
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+                    TextField(
+                        value = text1.value,
+                        onValueChange = { newText ->
+                            text1.value = newText
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text(text = "Enter value") }
+                    )
                 }
 
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.size(20.dp))
+                    dropdownmenu(
+                        options = option2,
+                        selectedOption = selectedOption2,
+                        label = label2
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
 
+                    var result = rememberSaveable {
+                        mutableStateOf("Result")
+                    }
+
+                    if (selectedOption1.value.isNotEmpty() && selectedOption2.value.isNotEmpty() && text1.value.isNotEmpty()) {
+                        when (selectedOption1.value) {
+                            "Kilometer" -> {
+                                var inputValue = text1.value.toFloat() * 1000 // km to meter
+                                when (selectedOption2.value) {
+                                    "Kilometer" -> {
+                                        var convertedValue = inputValue / 1000
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Meter" -> {
+                                        var convertedValue = inputValue
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Centimeter" -> {
+                                        var convertedValue = inputValue * 100
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Millimeter" -> {
+                                        var convertedValue = inputValue * 1000
+                                        result.value = convertedValue.toString()
+                                    }
+                                }
+                            }
+
+                            "Meter" -> {
+                                var inputValue = text1.value.toFloat() // meter to meter
+                                when (selectedOption2.value) {
+                                    "Kilometer" -> {
+                                        var convertedValue = inputValue / 1000
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Meter" -> {
+                                        var convertedValue = inputValue
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Centimeter" -> {
+                                        var convertedValue = inputValue * 100
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Millimeter" -> {
+                                        var convertedValue = inputValue * 1000
+                                        result.value = convertedValue.toString()
+                                    }
+                                }
+                            }
+
+                            "Centimeter" -> {
+                                var inputValue = text1.value.toFloat() / 100 // cm to meter
+                                when (selectedOption2.value) {
+                                    "Kilometer" -> {
+                                        var convertedValue = inputValue / 1000
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Meter" -> {
+                                        var convertedValue = inputValue
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Centimeter" -> {
+                                        var convertedValue = inputValue * 100
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Millimeter" -> {
+                                        var convertedValue = inputValue * 1000
+                                        result.value = convertedValue.toString()
+                                    }
+                                }
+                            }
+
+                            "Millimeter" -> {
+                                var inputValue = text1.value.toFloat() / 1000 // mm to meter
+                                when (selectedOption2.value) {
+                                    "Kilometer" -> {
+                                        var convertedValue = inputValue / 1000
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Meter" -> {
+                                        var convertedValue = inputValue
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Centimeter" -> {
+                                        var convertedValue = inputValue * 100
+                                        result.value = convertedValue.toString()
+                                    }
+
+                                    "Millimeter" -> {
+                                        var convertedValue = inputValue * 1000
+                                        result.value = convertedValue.toString()
+                                    }
+                                }
+                            }
+                        }
+
+                        Text(
+                            text = result.value,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .size(100.dp),
+                            fontSize = 30.sp
+                        )
+                    }
+                }
             }
-        }
-
 
         }
+
 
     }
 
     @Preview
     @Composable
     fun speedScreen() {
-        var selectedOption1 = rememberSaveable{
-            mutableStateOf("")
+        var Configuration = LocalConfiguration.current
+        var isPortrait =
+            Configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 
-        }
-        var option1 = listOf("Km/h", "m/sec")
-        var label1 = "Select Speed"
-        var text1 = rememberSaveable{
-            mutableStateOf("")
+        if (isPortrait) {
 
-        }
+            var selectedOption1 = rememberSaveable {
+                mutableStateOf("")
 
-        var selectedOption2 = rememberSaveable{
-            mutableStateOf("")
-        }
-        var option2 = listOf("Km/h", "m/sec")
-        var label2 = "Select Speed"
+            }
+            var option1 = listOf("Km/h", "m/sec")
+            var label1 = "Select Speed"
+            var text1 = rememberSaveable {
+                mutableStateOf("")
 
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(15.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Speed Converter", fontSize = 30.sp)
-            Spacer(modifier = Modifier.size(50.dp))
-            dropdownmenu(options = option1, selectedOption = selectedOption1, label = label1)
-            Spacer(modifier = Modifier.size(50.dp))
-
-            TextField(
-                value = text1.value, onValueChange = { newText ->
-                    text1.value = newText
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                label = { Text(text = "Enter value") }
-
-            )
-            Spacer(modifier = Modifier.size(50.dp))
-
-            dropdownmenu(options = option2, selectedOption = selectedOption2, label = label2)
-
-            Spacer(modifier = Modifier.size(50.dp))
-
-
-            var result = rememberSaveable{
-                mutableStateOf("Result")
             }
 
-            if (selectedOption1.value != " " && selectedOption2.value != " " && text1.value != "") {
+            var selectedOption2 = rememberSaveable {
+                mutableStateOf("")
+            }
+            var option2 = listOf("Km/h", "m/sec")
+            var label2 = "Select Speed"
 
-                when (selectedOption1.value) {
-                    "Km/h" -> {
-                        var text1 = (text1.value.toFloat() * 5) / 18 // kh ->m/sec
-                        when (selectedOption2.value) {
-                            "Km/h" -> {
-                                var view1 = (text1 * 18) / 5
-                                result.value = view1.toString()
-                                Text(
-                                    text = result.value, modifier = Modifier
-                                        .padding(12.dp)
-                                        .size(100.dp),
-                                    fontSize = 30.sp
-                                )
 
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(15.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "Speed Converter", fontSize = 30.sp)
+                Spacer(modifier = Modifier.size(50.dp))
+                dropdownmenu(options = option1, selectedOption = selectedOption1, label = label1)
+                Spacer(modifier = Modifier.size(50.dp))
+
+                TextField(
+                    value = text1.value, onValueChange = { newText ->
+                        text1.value = newText
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(text = "Enter value") }
+
+                )
+                Spacer(modifier = Modifier.size(50.dp))
+
+                dropdownmenu(options = option2, selectedOption = selectedOption2, label = label2)
+
+                Spacer(modifier = Modifier.size(50.dp))
+
+
+                var result = rememberSaveable {
+                    mutableStateOf("Result")
+                }
+
+                if (selectedOption1.value != " " && selectedOption2.value != " " && text1.value != "") {
+
+                    when (selectedOption1.value) {
+                        "Km/h" -> {
+                            var text1 = (text1.value.toFloat() * 5) / 18 // kh ->m/sec
+                            when (selectedOption2.value) {
+                                "Km/h" -> {
+                                    var view1 = (text1 * 18) / 5
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier
+                                            .padding(12.dp)
+                                            .size(100.dp),
+                                        fontSize = 30.sp
+                                    )
+
+                                }
+
+                                "m/sec" -> {
+                                    var view2 = text1 * 1
+                                    result.value = view2.toString()
+                                    Text(
+                                        text = result.value, fontSize = 30.sp
+                                    )
+                                }
                             }
-                            "m/sec" -> {
-                                var view2 = text1 * 1
-                                result.value = view2.toString()
-                                Text(text = result.value
-                                ,fontSize = 30.sp)
+
+                        }
+
+                        "m/sec" -> {
+                            var text2 = text1.value.toFloat() * 1// m/sec-> m/sec
+
+                            when (selectedOption2.value) {
+                                "Km/h" -> {
+                                    var view1 = (text2 * 18) / 5
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier
+                                            .padding(12.dp)
+                                            .size(100.dp),
+                                        fontSize = 30.sp
+                                    )
+
+                                }
+
+                                "m/sec" -> {
+                                    var view2 = text2 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
                             }
+
+
                         }
 
                     }
 
-                    "m/sec" -> {
-                        var text2 = text1.value.toFloat() * 1// m/sec-> m/sec
 
+                }
+            }
+
+        } else {
+            var selectedOption1 = rememberSaveable {
+                mutableStateOf("")
+            }
+            var option1 = listOf("Km/h", "m/sec")
+            var label1 = "Select Speed"
+            var text1 = rememberSaveable {
+                mutableStateOf("")
+            }
+
+            var selectedOption2 = rememberSaveable {
+                mutableStateOf("")
+            }
+            var option2 = listOf("Km/h", "m/sec")
+            var label2 = "Select Speed"
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(15.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Speed Converter", fontSize = 30.sp)
+                    Spacer(modifier = Modifier.size(20.dp))
+                    dropdownmenu(
+                        options = option1,
+                        selectedOption = selectedOption1,
+                        label = label1
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+                    TextField(
+                        value = text1.value,
+                        onValueChange = { newText ->
+                            text1.value = newText
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text(text = "Enter value") }
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.size(20.dp))
+                    dropdownmenu(
+                        options = option2,
+                        selectedOption = selectedOption2,
+                        label = label2
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+
+                    var result = rememberSaveable {
+                        mutableStateOf("Result")
+                    }
+
+                    if (selectedOption1.value != " " && selectedOption2.value != " " && text1.value != "") {
+                        when (selectedOption1.value) {
+                            "Km/h" -> {
+                                var text1 = (text1.value.toFloat() * 5) / 18 // km/h -> m/sec
+                                when (selectedOption2.value) {
+                                    "Km/h" -> {
+                                        var view1 = (text1 * 18) / 5
+                                        result.value = view1.toString()
+                                    }
+
+                                    "m/sec" -> {
+                                        var view2 = text1 * 1
+                                        result.value = view2.toString()
+                                    }
+                                }
+                            }
+
+                            "m/sec" -> {
+                                var text2 = text1.value.toFloat() * 1 // m/sec -> m/sec
                                 when (selectedOption2.value) {
                                     "Km/h" -> {
                                         var view1 = (text2 * 18) / 5
                                         result.value = view1.toString()
-                                        Text(
-                                            text = result.value, modifier = Modifier
-                                                .padding(12.dp)
-                                                .size(100.dp),
-                                            fontSize = 30.sp
-                                        )
-
                                     }
 
                                     "m/sec" -> {
                                         var view2 = text2 * 1
                                         result.value = view2.toString()
-                                        Text(text = result.value,fontSize = 30.sp)
                                     }
                                 }
-
-
                             }
-
                         }
 
-
+                        Text(
+                            text = result.value,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .size(100.dp),
+                            fontSize = 30.sp
+                        )
                     }
                 }
-
             }
+
+        }
+    }
 
 
     @Preview
     @Composable
     fun weightScreen() {
-        var selectedOption1 = rememberSaveable{
+        var selectedOption1 = rememberSaveable {
             mutableStateOf("")
         }
 
         var option1 = listOf("Kilogram", "gram", "Milligram", "Microgram")
-        var label1="Select Weight"
-        var text1= rememberSaveable{
+        var label1 = "Select Weight"
+        var text1 = rememberSaveable {
             mutableStateOf("")
         }
 
-        var selectedOption2 = rememberSaveable{
+        var selectedOption2 = rememberSaveable {
             mutableStateOf("")
         }
         var option2 = listOf("Kilogram", "gram", "Milligram", "Microgram")
-        var label2="Select Weight"
+        var label2 = "Select Weight"
+
+        var Configuration = LocalConfiguration.current
+        var isPortrait =
+            Configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+
+        if (isPortrait) {
 
 
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(50.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Text(text = "Weight Converter", fontSize = 30.sp)
-            Spacer(modifier = Modifier.size(50.dp))
-            dropdownmenu(options = option1, selectedOption = selectedOption1, label = label1)
-            Spacer(modifier = Modifier.size(50.dp))
-
-            TextField(
-                value = text1.value, onValueChange = {newText->
-                    text1.value=newText
-                },
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                label = { Text(text = "Enter value")}
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(50.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-            )
-            Spacer(modifier = Modifier.size(50.dp))
+                Text(text = "Weight Converter", fontSize = 30.sp)
+                Spacer(modifier = Modifier.size(50.dp))
+                dropdownmenu(options = option1, selectedOption = selectedOption1, label = label1)
+                Spacer(modifier = Modifier.size(50.dp))
+
+                TextField(
+                    value = text1.value, onValueChange = { newText ->
+                        text1.value = newText
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(text = "Enter value") }
+
+                )
+                Spacer(modifier = Modifier.size(50.dp))
 
 
-            dropdownmenu(options = option2, selectedOption = selectedOption2 , label = label2 )
-            Spacer(modifier = Modifier.size(50.dp))
+                dropdownmenu(options = option2, selectedOption = selectedOption2, label = label2)
+                Spacer(modifier = Modifier.size(50.dp))
 
 
-            var result= rememberSaveable{
-                mutableStateOf("Result")
-            }
-            if(selectedOption1.value!=" " && selectedOption2.value!=" " && text1.value!=""){
+                var result = rememberSaveable {
+                    mutableStateOf("Result")
+                }
+                if (selectedOption1.value != " " && selectedOption2.value != " " && text1.value != "") {
 
-                when(selectedOption1.value){
-                    "Kilogram"->{
-                        var text1=text1.value.toFloat() *1000 //km to gram
-                        when(selectedOption2.value){
-                            "Kilogram"->{
-                                var view1=text1 /1000
-                                result.value=view1.toString()
-                                Text(text = result.value, modifier = Modifier
-                                    ,fontSize = 30.sp
-                                )
+                    when (selectedOption1.value) {
+                        "Kilogram" -> {
+                            var text1 = text1.value.toFloat() * 1000 //km to gram
+                            when (selectedOption2.value) {
+                                "Kilogram" -> {
+                                    var view1 = text1 / 1000
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier, fontSize = 30.sp
+                                    )
 
-                            }
-                            "gram"->{ var view2=text1 *1
-                                result.value=view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                            "Milligram"->{
-                                var view3= text1 * 1000
-                                result.value=view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
+                                }
 
-                            }
-                            "Microgram"->{
-                                var view4=text1 *1000000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                        }
+                                "gram" -> {
+                                    var view2 = text1 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
 
-                    }
-                    "gram"->{
-                        var text2=text1.value.toFloat() * 1 // gram to gram
+                                "Milligram" -> {
+                                    var view3 = text1 * 1000
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
 
-                        when(selectedOption2.value){
-                            "Kilogram"->{
-                                var view1=text2/ 1000
-                                result.value=view1.toString()
-                                Text(text = result.value, modifier = Modifier
-                                    .padding(12.dp)
-                                    .size(100.dp),fontSize = 30.sp
-                                )
+                                }
 
-                            }
-                            "gram"->{ var view2=text2 *1
-                                result.value=view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                            "Milligram"->{
-                                var view3= text2 * 1000
-                                result.value=view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-
-                            }
-                            "Microgram"->{
-                                var view4=text2 *1000000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                        }
-
-                    }
-                    "Milligram"->{
-                        var text3=text1.value.toFloat() / 1000      //mg to g
-
-                        when(selectedOption2.value) {
-                            "Kilogram" -> {
-                                var view1 = text3 / 1000
-                                result.value = view1.toString()
-                                Text(
-                                    text = result.value, modifier = Modifier
-                                        .padding(12.dp)
-                                        .size(100.dp),fontSize = 30.sp
-                                )
-
-                            }
-
-                            "gram" -> {
-                                var view2 = text3 * 1
-                                result.value = view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-
-                            "Milligram" -> {
-                                var view3 = text3 * 1000
-                                result.value = view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-
-                            }
-
-                            "Microgram" -> {
-                                var view4 = text3 * 1000000
-                                result.value = view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
+                                "Microgram" -> {
+                                    var view4 = text1 * 1000000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
                             }
 
                         }
 
-                    }
-                    "Microgram"->{
-                        var text4=text1.value.toFloat() / 1000000     //mg to gram
-                        when(selectedOption2.value){
-                            "Kilogram"->{
-                                var view1=text4/ 1000
-                                result.value=view1.toString()
-                                Text(text = result.value, modifier = Modifier
-                                    .padding(12.dp)
-                                    .size(100.dp),fontSize = 30.sp
-                                )
+                        "gram" -> {
+                            var text2 = text1.value.toFloat() * 1 // gram to gram
 
-                            }
-                            "gram"->{ var view2=text4 *1
-                                result.value=view2.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
-                            "Milligram"->{
-                                var view3= text4 * 1000
-                                result.value=view3.toString()
-                                Text(text = result.value,fontSize = 30.sp)
+                            when (selectedOption2.value) {
+                                "Kilogram" -> {
+                                    var view1 = text2 / 1000
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier
+                                            .padding(12.dp)
+                                            .size(100.dp), fontSize = 30.sp
+                                    )
 
+                                }
+
+                                "gram" -> {
+                                    var view2 = text2 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Milligram" -> {
+                                    var view3 = text2 * 1000
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+
+                                }
+
+                                "Microgram" -> {
+                                    var view4 = text2 * 1000000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
                             }
-                            "Microgram"->{
-                                var view4=text4 *1000000
-                                result.value=view4.toString()
-                                Text(text = result.value,fontSize = 30.sp)
-                            }
+
                         }
+
+                        "Milligram" -> {
+                            var text3 = text1.value.toFloat() / 1000      //mg to g
+
+                            when (selectedOption2.value) {
+                                "Kilogram" -> {
+                                    var view1 = text3 / 1000
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier
+                                            .padding(12.dp)
+                                            .size(100.dp), fontSize = 30.sp
+                                    )
+
+                                }
+
+                                "gram" -> {
+                                    var view2 = text3 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Milligram" -> {
+                                    var view3 = text3 * 1000
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+
+                                }
+
+                                "Microgram" -> {
+                                    var view4 = text3 * 1000000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                            }
+
+                        }
+
+                        "Microgram" -> {
+                            var text4 = text1.value.toFloat() / 1000000     //mg to gram
+                            when (selectedOption2.value) {
+                                "Kilogram" -> {
+                                    var view1 = text4 / 1000
+                                    result.value = view1.toString()
+                                    Text(
+                                        text = result.value, modifier = Modifier
+                                            .padding(12.dp)
+                                            .size(100.dp), fontSize = 30.sp
+                                    )
+
+                                }
+
+                                "gram" -> {
+                                    var view2 = text4 * 1
+                                    result.value = view2.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+
+                                "Milligram" -> {
+                                    var view3 = text4 * 1000
+                                    result.value = view3.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+
+                                }
+
+                                "Microgram" -> {
+                                    var view4 = text4 * 1000000
+                                    result.value = view4.toString()
+                                    Text(text = result.value, fontSize = 30.sp)
+                                }
+                            }
                         }
 
                     }
@@ -675,34 +1091,213 @@ class MainActivity : ComponentActivity() {
 
 
             }
+
+        } else {
+            var selectedOption1 = rememberSaveable {
+                mutableStateOf("")
+            }
+            var option1 = listOf("Kilogram", "gram", "Milligram", "Microgram")
+            var label1 = "Select Weight Unit"
+            var text1 = rememberSaveable {
+                mutableStateOf("")
+            }
+
+            var selectedOption2 = rememberSaveable {
+                mutableStateOf("")
+            }
+            var option2 = listOf("Kilogram", "gram", "Milligram", "Microgram")
+            var label2 = "Select Weight Unit"
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .padding(15.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Weight Converter", fontSize = 30.sp)
+                    Spacer(modifier = Modifier.size(20.dp))
+                    dropdownmenu(
+                        options = option1,
+                        selectedOption = selectedOption1,
+                        label = label1
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+                    TextField(
+                        value = text1.value,
+                        onValueChange = { newText ->
+                            text1.value = newText
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text(text = "Enter value") }
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.size(20.dp))
+                    dropdownmenu(
+                        options = option2,
+                        selectedOption = selectedOption2,
+                        label = label2
+                    )
+                    Spacer(modifier = Modifier.size(20.dp))
+
+                    var result = rememberSaveable {
+                        mutableStateOf("Result")
+                    }
+
+                    if (selectedOption1.value != " " && selectedOption2.value != " " && text1.value != "") {
+                        when (selectedOption1.value) {
+                            "Kilogram" -> {
+                                var text1 = text1.value.toFloat() * 1000 // kg to gram
+                                when (selectedOption2.value) {
+                                    "Kilogram" -> {
+                                        var view1 = text1 / 1000
+                                        result.value = view1.toString()
+                                    }
+
+                                    "gram" -> {
+                                        var view2 = text1 * 1
+                                        result.value = view2.toString()
+                                    }
+
+                                    "Milligram" -> {
+                                        var view3 = text1 * 1000
+                                        result.value = view3.toString()
+                                    }
+
+                                    "Microgram" -> {
+                                        var view4 = text1 * 1000000
+                                        result.value = view4.toString()
+                                    }
+                                }
+                            }
+
+                            "gram" -> {
+                                var text2 = text1.value.toFloat() * 1 // gram to gram
+                                when (selectedOption2.value) {
+                                    "Kilogram" -> {
+                                        var view1 = text2 / 1000
+                                        result.value = view1.toString()
+                                    }
+
+                                    "gram" -> {
+                                        var view2 = text2 * 1
+                                        result.value = view2.toString()
+                                    }
+
+                                    "Milligram" -> {
+                                        var view3 = text2 * 1000
+                                        result.value = view3.toString()
+                                    }
+
+                                    "Microgram" -> {
+                                        var view4 = text2 * 1000000
+                                        result.value = view4.toString()
+                                    }
+                                }
+                            }
+
+                            "Milligram" -> {
+                                var text3 = text1.value.toFloat() / 1000 // mg to gram
+                                when (selectedOption2.value) {
+                                    "Kilogram" -> {
+                                        var view1 = text3 / 1000
+                                        result.value = view1.toString()
+                                    }
+
+                                    "gram" -> {
+                                        var view2 = text3 * 1
+                                        result.value = view2.toString()
+                                    }
+
+                                    "Milligram" -> {
+                                        var view3 = text3 * 1000
+                                        result.value = view3.toString()
+                                    }
+
+                                    "Microgram" -> {
+                                        var view4 = text3 * 1000000
+                                        result.value = view4.toString()
+                                    }
+                                }
+                            }
+
+                            "Microgram" -> {
+                                var text4 = text1.value.toFloat() / 1000000 // µg to gram
+                                when (selectedOption2.value) {
+                                    "Kilogram" -> {
+                                        var view1 = text4 / 1000
+                                        result.value = view1.toString()
+                                    }
+
+                                    "gram" -> {
+                                        var view2 = text4 * 1
+                                        result.value = view2.toString()
+                                    }
+
+                                    "Milligram" -> {
+                                        var view3 = text4 * 1000
+                                        result.value = view3.toString()
+                                    }
+
+                                    "Microgram" -> {
+                                        var view4 = text4 * 1000000
+                                        result.value = view4.toString()
+                                    }
+                                }
+                            }
+                        }
+
+                        Text(
+                            text = result.value,
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .size(100.dp),
+                            fontSize = 30.sp
+                        )
+                    }
+                }
+            }
         }
 
-
-
-
+    }
 
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun dropdownmenu(
-        options:List<String>,
-        selectedOption:MutableState<String>,
-        label:String,
-    ){
-        var expanded = rememberSaveable{
+        options: List<String>,
+        selectedOption: MutableState<String>,
+        label: String,
+    ) {
+        var expanded = rememberSaveable {
             mutableStateOf(false)
         }
 
         ExposedDropdownMenuBox(
             expanded = expanded.value,
-            onExpandedChange ={ expanded.value= !expanded.value} )
+            onExpandedChange = { expanded.value = !expanded.value })
         {
 
             TextField(
                 readOnly = true,
                 value = selectedOption.value,
                 onValueChange = {},
-                label ={ Text(text = label)},
+                label = { Text(text = label) },
                 trailingIcon =
                 {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
@@ -712,18 +1307,21 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth(0.90f)
             )
 
-            ExposedDropdownMenu(expanded = expanded.value, onDismissRequest = {expanded.value=false }) {
+            ExposedDropdownMenu(
+                expanded = expanded.value,
+                onDismissRequest = { expanded.value = false }) {
 
-                options.forEach { option->
-                    DropdownMenuItem(text = { Text(text = option)},
+                options.forEach { option ->
+                    DropdownMenuItem(text = { Text(text = option) },
                         onClick = {
-                            selectedOption.value=option
-                            expanded.value=false
+                            selectedOption.value = option
+                            expanded.value = false
                         })
                 }
             }
         }
     }
+}
 
 
 
